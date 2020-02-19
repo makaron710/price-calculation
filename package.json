@@ -1,0 +1,33 @@
+{
+  "name": "web-start_the-final-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-minify": "^3.1.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-tinypng-compress": "^1.2.5",
+    "jquery-mask-plugin": "^1.14.16",
+    "node-sass": "^4.13.0",
+    "swiper": "^5.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makaron710/Web-start_The-final-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/makaron710/Web-start_The-final-project/issues"
+  },
+  "homepage": "https://github.com/makaron710/Web-start_The-final-project#readme"
+}
