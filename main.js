@@ -1,3 +1,11 @@
+//-------------------------------------------------------------//
+//-------------------------------------------------------------//
+//-------------------------------------------------------------//
+//------------ ДЗ 3 НА 156 СТРОКЕ -----------------------------//
+//-------------------------------------------------------------//
+//-------------------------------------------------------------//
+//-------------------------------------------------------------//
+const DAY_STRING = ['день', 'дня', 'дней'];
 
 const DATA = {
   whichSite: ['landing', 'multiPage', 'onlineStore'],
@@ -20,9 +28,18 @@ const startButton = document.querySelector('.start-button'),
   endButton = document.querySelector('.end-button'),
   total = document.querySelector('.total'),
   fastRange = document.querySelector('.fast-range'),
-  totalPriceSum = document.querySelector('.total_price__sum');
+  totalPriceSum = document.querySelector('.total_price__sum'),
+  typeSite = document.querySelector('.type-site'),
+  maxDeadline =  document.querySelector('.max-deadline'),
+  rangeDeadline = document.querySelector('.range-deadline'),
+  deadlineValue = document.querySelector('.deadline-value');
 
 // console.dir(startButton); // - выводит в консоль все свойства объекта
+
+function declOfNum(n, titles, from) {
+  return n + ' ' + titles[from ? n % 10 === 1 && n % 100 !== 11 ? 1 : 2 : n % 10 === 1 && n % 100 !== 11 ?
+    0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2];
+}
 
 function showElem(elem) {
   elem.style.display = 'block';
@@ -32,10 +49,22 @@ function hideElem(elem) {
   elem.style.display = 'none';
 }
 
+function renderTextContent(total, site, maxDay, minDay) {
+  totalPriceSum.textContent = total;
+  typeSite.textContent = site;
+  maxDeadline.textContent = declOfNum(maxDay, DAY_STRING, true);
+  rangeDeadline.min = minDay;
+  rangeDeadline.max = maxDay;
+  deadlineValue.textContent = declOfNum(rangeDeadline.value, DAY_STRING);
+}
+
 function priceCalculation(elem) { 
   let result = 0,
       index = 0,
-      options = [];
+      options = [],
+      site = '',
+      maxDeadlineDay = DATA.deadlineDay[index][1],
+      minDeadlineDay = DATA.deadlineDay[index][0];
 
   if (elem.name === 'whichSite') {
     for (const item of formCalculate.elements) {
@@ -49,6 +78,9 @@ function priceCalculation(elem) {
   for (const item of formCalculate.elements) {
     if (item.name === 'whichSite' && item.checked) {
       index = DATA.whichSite.indexOf(item.value);
+      site = item.dataset.site;
+      maxDeadlineDay = DATA.deadlineDay[index][1];
+      minDeadlineDay = DATA.deadlineDay[index][0];
     } else if (item.classList.contains('calc-handler') && item.checked) {
       options.push(item.value); // push добавляет елемент в массив
     }
@@ -71,8 +103,9 @@ function priceCalculation(elem) {
   });
 
   result += DATA.price[index];
+
+  renderTextContent(result, site, maxDeadlineDay, minDeadlineDay);
   
-  totalPriceSum.textContent = result;
 }
 
 function handlerCallBackForm(event) {
@@ -107,15 +140,49 @@ endButton.addEventListener('click', function() {
 
 formCalculate.addEventListener('change', handlerCallBackForm);
 
-const mobileTemplates = document.querySelector('#mobileTemplates');
-const adapt = document.querySelector('#adapt');
+// dz 2
+const mobileTemplates = document.getElementById('mobileTemplates');
+const adapt = document.getElementById('adapt');
 mobileTemplates.disabled = true;
 adapt.addEventListener('click', function() {
   if (!adapt.checked) {
     mobileTemplates.disabled = true;
+    mobileTemplates.checked = false;
   } else {
     mobileTemplates.disabled = false;
   }
 });
+
+// dz 3 Плохое решение
+const desktopTemplates = document.getElementById('desktopTemplates'),
+      editable = document.getElementById('editable'),
+      desktopTemplatesValue = document.querySelector('.desktopTemplates_value'),
+      adaptValue = document.querySelector('.adapt_value'),
+      mobileTemplatesValue = document.querySelector('.mobileTemplates_value'),
+      editableValue = document.querySelector('.editable_value');
+
+let checkboxes = [desktopTemplates, adapt, mobileTemplates, editable],
+    checkboxLabeles = [desktopTemplatesValue, adaptValue, mobileTemplatesValue, editableValue];
+
+checkboxes.forEach(function(check) {
+  check.addEventListener('change', function() {
+    let temp = checkboxes.indexOf(check);
+    if (checkboxes[temp].checked === false) {
+      checkboxLabeles[temp].textContent = 'Нет';
+    } else {
+      checkboxLabeles[temp].textContent = 'Да';
+    }
+  });
+});
+
+adapt.addEventListener('change', function() {
+  if (adapt.checked === false) {
+    mobileTemplatesValue.textContent = 'Нет';
+  } 
+});
+
+
+
+
 
 
